@@ -33,7 +33,8 @@ const WeatherSchema = new mongoose.Schema({
   timestamp:Number,
   sunrise:Number,
   sunset:Number,
-  color:Array
+  color:Array,
+  currentTime:Number
 });
 
 const Weather = mongoose.model('Weather', WeatherSchema);
@@ -163,7 +164,8 @@ setInterval(()=>{
       timestamp:new Date().getUTCSeconds(),
       sunrise:response.data.sys.sunrise,
       sunset:response.data.sys.sunset,
-      color:col
+      color:col,
+      currentTime:currentTime
     });
     
       Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
@@ -212,7 +214,7 @@ app.get("/current",(req,res)=>{
     timezone:response.data.timezone,
     rain: response.data.rain?1:0,
     timestamp:new Date().getTime(),
-    colour: [0,0,0]
+    colour: [0,0,0],
   });
 
     Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
