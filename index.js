@@ -60,6 +60,7 @@ app.get("/dbdata",(req,res)=>{
   })
 })
 
+let currentTime
 // app.get("/test",(req,res)=>{
 //     const resp = {
 //       main:"Clear",
@@ -87,6 +88,8 @@ setInterval(()=>{
     const time = Math.ceil(moment.utc().valueOf()/1000) + timezone
 
     currentTime = moment(time*1000).utc()
+
+    console.log("currentTime...............",currentTime)
 
     // const sunrise = moment((1649505984 + 19800)*1000).utc()
 
@@ -180,7 +183,6 @@ setInterval(()=>{
 
       })
       .catch(function (error) {
-        res.send(error)
         console.log(error)
       });  
   })
