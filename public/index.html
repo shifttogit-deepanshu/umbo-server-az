@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Include the CesiumJS JavaScript and CSS files -->
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.92/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.92/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="Stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    // Your access token can be found at: https://cesium.com/ion/tokens.
+    // This is the default access token from your ion account
+
+    Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MzQyNjA3OS1kZWRlLTRjNDMtYjQ1MS0yNmRmMzExZDg0YzkiLCJpZCI6ODgzNzYsImlhdCI6MTY0OTE3NjkzNX0.Y1u_eVZLuHf-iXpZUES8tY8cmoZ13oog_nCKWkFpJx4";
+
+    // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
+    const viewer = new Cesium.Viewer("cesiumContainer", {
+      imageryProvider : Cesium.createWorldImagery(),
+      baseLayerPicker:false,
+      fullscreenButton:false,
+      navigationHelpButton:false,
+      navigationInstructionsInitiallyVisible:false,
+      timeline:false,
+      selectionIndicator:false,
+      sceneModePicker:false,
+      infoBox:false,
+      homeButton:false,
+      geocoder:false,
+      animation:false
+    });    
+
+    viewer.clock.multiplier = 200 ;
+
+    viewer.clock.shouldAnimate = true
+    
+    viewer.scene.screenSpaceCameraController.enableTilt = false;
+    viewer.scene.screenSpaceCameraController.enableLook = false;
+
+    viewer.scene.globe.enableLighting = true
+
+    viewer.canvas.addEventListener("click", function(e){
+
+    viewer.entities.removeAll()
+
+    var mousePosition = new Cesium.Cartesian2(e.clientX, e.clientY);
+
+    var ellipsoid = viewer.scene.globe.ellipsoid;
+
+    var cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
+
+    if (cartesian) {
+
+    var cartographic = ellipsoid.cartesianToCartographic(cartesian);
+
+    var longitudeString = Cesium.Math.toDegrees(cartographic.longitude).toFixed(2);
+
+    var latitudeString = Cesium.Math.toDegrees(cartographic.latitude).toFixed(2);
+
+
+    var point = viewer.entities.add({
+    name : 'point',
+    position : Cesium.Cartesian3.fromDegrees(longitudeString, latitudeString),
+    point : {
+        pixelSize : 5,
+        color : Cesium.Color.RED,
+        outlineColor : Cesium.Color.WHITE,
+        outlineWidth : 2
+    },
+    label : {
+        text : 'Umbo',
+        font : '14pt monospace',
+        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        outlineWidth : 2,
+        verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
+        pixelOffset : new Cesium.Cartesian2(0, -9)
+    }
+    });
+
+    var config = {
+    method: 'get',
+    url: `https://radiant-peak-68160.herokuapp.com/current?lat=${latitudeString}&lon=${longitudeString}`,
+    headers: { }
+    };
+
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));     
+      alert(longitudeString + ', ' + latitudeString);
+    })
+    .catch(function (error) {
+      // console.log(error);
+      alert("request failed...."+ error);
+    });
+    } else {
+
+    console.log("clicked not on globe...")
+  }
+    }, false);
+
+    document.getElementsByClassName("cesium-viewer-bottom")[0].style.display="none"
+  </script>
+ </div>
+</body>
+</html>
