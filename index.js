@@ -122,7 +122,7 @@ setInterval(()=>{
       // console.log(sunset)
 
       const scaledTime = (currentTime - sunrise)/(sunset-sunrise)
-      let colour = [0]
+      let colour
       if(scaledTime<=0){
         colour = [0,0,0]
       }
@@ -140,7 +140,9 @@ setInterval(()=>{
       console.log(colour)
       }
 
-      return colour
+      return new Promise((resolve,reject)=>{
+        resolve(colour)
+      })
 
     }).then(col=>{
       console.log("col......",col)
