@@ -97,7 +97,7 @@ setInterval(()=>{
 
     var config = {
       method: 'get',
-      url: `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&formatted=0\n`,
+      url: `http://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&formatted=0\n`,
       headers: { }
     };
 
