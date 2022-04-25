@@ -199,7 +199,7 @@ setInterval(()=>{
       })
 
     }).then(col=>{
-      console.log("col......",col)
+  
       
     const weather = new Weather({ 
       _id: "Deepanshu",
@@ -218,12 +218,11 @@ setInterval(()=>{
       sunrise:response.data.sys.sunrise,
       sunset:response.data.sys.sunset,
       color:col,
-      currentTime:currentTime
+      currentTime:currentTime,
+      lights:[...result.lights]
     });
     
-      Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
-        // console.log("data updated......",result)
-      })
+      
   
     })
     .catch(function (error) {
