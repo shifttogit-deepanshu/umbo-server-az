@@ -219,7 +219,7 @@ setInterval(()=>{
       sunset:response.data.sys.sunset,
       color:col,
       currentTime:currentTime,
-      lights:[...result.lights]
+      // lights:[...result.lights]
     });
     
       
