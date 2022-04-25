@@ -18,6 +18,7 @@ mongoose.connect('mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongod
 
 const WeatherSchema = new mongoose.Schema({
   _id:String,
+  mode:String,
   lat:Number,
   lon:Number,
   main: String,
@@ -34,7 +35,8 @@ const WeatherSchema = new mongoose.Schema({
   sunrise:Number,
   sunset:Number,
   color:Array,
-  currentTime:Number
+  currentTime:Number,
+  userColor:Array
 });
 
 const Weather = mongoose.model('Weather', WeatherSchema);
@@ -43,8 +45,10 @@ const Weather = mongoose.model('Weather', WeatherSchema);
 app.get("/nodemcu",(req,res)=>{
   Weather.findOne({_id:"Deepanshu"}).then(result=>{
     const resp = {
+      mode:result.mode,
       main:result.main,
-      color:result.color
+      color:result.color,
+      manColor:result.manColor
     }
     res.send(resp)
   }).catch(err=>{
@@ -60,14 +64,42 @@ app.get("/dbdata",(req,res)=>{
   })
 })
 
+app.get("/web",(req,res)=>{
+  const weather = {mode:"web"}
+  Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
+    res.send(result)
+  })
+})
+
+app.get("/rain",(req,res)=>{
+  const weather = {mode:"rain"}
+  Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
+    res.send(result)
+  })
+})
+
+app.get("/thunder",(req,res)=>{
+  const weather = {mode:"thunder"}
+  Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
+    res.send(result)
+  })
+})
+
+app.get("/clouds",(req,res)=>{
+  const weather = {mode:"clouds"}
+  Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
+    res.send(result)
+  })
+})
+
 let currentTime
-// app.get("/test",(req,res)=>{
-//     const resp = {
-//       main:"Clear",
-//       color:[255,255,255]
-//     }
-//     res.send(resp)
-// })
+app.get("/test",(req,res)=>{
+    const resp = {
+      main:"Clear",
+      color:[255,255,255]
+    }
+    res.send(resp)
+})
 
 setInterval(()=>{
   Weather.findOne({_id:"Deepanshu"}).then(result=>{
@@ -188,6 +220,35 @@ setInterval(()=>{
   })
 },5000)
 
+app.get("/createdb",(req,res)=>{
+  const weather = new Weather({ 
+    _id: "Deepanshu",
+    // mode:response.data.mode,
+    lat: 28,
+    lon: 77,
+    main: "Clouds",
+    desc: "Partly Cloudy",
+    icon: "response.data.weather[0].icon",
+    temp: 21,
+    cloud: 21,
+    location:"Gurgaon",
+    wind_speed:31,
+    timezone:19800,
+    rain: 1,
+    timestamp:new Date().getTime(),
+    colour: [0,0,0],
+  });
+
+  weather.save((err,result)=>{
+    if(err){
+      res.send(err)
+    }
+    else if(result){
+      res.send(result)
+    }
+  })
+})
+
 app.get("/current",(req,res)=>{  
 
   const lat = req.query.lat
@@ -204,6 +265,7 @@ app.get("/current",(req,res)=>{
 
   const weather = new Weather({ 
     _id: "Deepanshu",
+    // mode:response.data.mode,
     lat: response.data.coord.lat,
     lon: response.data.coord.lon,
     main: response.data.weather[0].main,
