@@ -218,8 +218,7 @@ setInterval(()=>{
       sunrise:response.data.sys.sunrise,
       sunset:response.data.sys.sunset,
       color:col,
-      currentTime:currentTime,
-      userColor:[1,1,1]
+      currentTime:currentTime
     });
     
       Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
