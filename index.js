@@ -102,7 +102,7 @@ app.get("/lights",(req,res)=>{
   let colors = [r,g,b]
 
   console.log(colors)
-  const weather = new Weather({lights:[1,1,1]})
+  const weather = new Weather({lights:[r,g,b]})
   Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
     res.send(result)
   }).catch(err=>{
