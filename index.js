@@ -36,7 +36,7 @@ const WeatherSchema = new mongoose.Schema({
   sunset:Number,
   color:Array,
   currentTime:Number,
-  userColor:Array
+  // userColor:Array
 
 });
 
@@ -49,7 +49,7 @@ app.get("/nodemcu",(req,res)=>{
       mode:result.mode,
       main:result.main,
       color:result.color,
-      manColor:result.manColor
+      // userColor:result.manColor
     }
     res.send(resp)
   }).catch(err=>{
