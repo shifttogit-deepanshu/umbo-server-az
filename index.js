@@ -95,9 +95,9 @@ app.get("/clouds",(req,res)=>{
 })
 
 app.get("/lights",(req,res)=>{
-  let r = req.query.r
-  let g = req.query.g
-  let b = req.query.b
+  let r = Number(req.query.r)
+  let g = Number(req.query.g)
+  let b = Number(req.query.b)
 
   let colors = [r,g,b]
 
