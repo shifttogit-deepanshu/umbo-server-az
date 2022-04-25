@@ -36,7 +36,7 @@ const WeatherSchema = new mongoose.Schema({
   sunset:Number,
   color:Array,
   currentTime:Number,
-  // userColor:Array
+  lights:Array
 
 });
 
@@ -255,6 +255,7 @@ app.get("/createdb",(req,res)=>{
     rain: 1,
     timestamp:new Date().getTime(),
     colour: [0,0,0],
+    mode:"web"
     // userColor:[1,1,1]
   });
 
