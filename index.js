@@ -58,6 +58,14 @@ app.get("/nodemcu",(req,res)=>{
 })
 
 
+app.get("/test",(req,res)=>{
+  res.send({
+    main:"clouds",
+    color:[123,34,200]
+  })
+})
+
+
 app.get("/dbdata",(req,res)=>{
   Weather.findOne({_id:"Deepanshu"}).then(result=>{
     res.send(result)
