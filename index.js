@@ -219,10 +219,16 @@ setInterval(()=>{
       sunset:response.data.sys.sunset,
       color:col,
       currentTime:currentTime,
-      // lights:[...result.lights]
+      lights:[...result.lights]
     });
     
-      
+    Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
+      // res.send(response.data)
+    })
+    .catch(function (error) {
+      // res.send(error)
+      console.log(error)
+    }); 
   
     })
     .catch(function (error) {
