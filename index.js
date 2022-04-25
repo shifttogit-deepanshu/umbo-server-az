@@ -37,6 +37,7 @@ const WeatherSchema = new mongoose.Schema({
   color:Array,
   currentTime:Number,
   userColor:Array
+
 });
 
 const Weather = mongoose.model('Weather', WeatherSchema);
@@ -55,6 +56,7 @@ app.get("/nodemcu",(req,res)=>{
     res.send(err)
   })
 })
+
 
 app.get("/dbdata",(req,res)=>{
   Weather.findOne({_id:"Deepanshu"}).then(result=>{
@@ -79,16 +81,32 @@ app.get("/rain",(req,res)=>{
 })
 
 app.get("/thunder",(req,res)=>{
-  const weather = {mode:"thunder"}
+  const weather = new Weather({mode:"thunder"})
   Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
     res.send(result)
   })
 })
 
 app.get("/clouds",(req,res)=>{
-  const weather = {mode:"clouds"}
+  const weather = new Weather({mode:"clouds"})
   Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
     res.send(result)
+  })
+})
+
+app.get("/lights",(req,res)=>{
+  let r = req.query.r
+  let g = req.query.g
+  let b = req.query.b
+
+  let colors = [r,g,b]
+
+  console.log(colors)
+  const weather = new Weather({userColor:[1,1,1]})
+  Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
+    res.send(result)
+  }).catch(err=>{
+    console.log("err..................",err)
   })
 })
 
@@ -277,8 +295,7 @@ app.get("/current",(req,res)=>{
     wind_speed:response.data.wind.speed,
     timezone:response.data.timezone,
     rain: response.data.rain?1:0,
-    timestamp:new Date().getTime(),
-    colour: [0,0,0],
+    timestamp:new Date().getTime()
   });
 
     Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
