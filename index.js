@@ -102,7 +102,7 @@ app.get("/lights",(req,res)=>{
   let colors = [r,g,b]
 
   console.log(colors)
-  const weather = new Weather({userColor:[1,1,1]})
+  const weather = new Weather({lights:[1,1,1]})
   Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
     res.send(result)
   }).catch(err=>{
@@ -255,8 +255,8 @@ app.get("/createdb",(req,res)=>{
     rain: 1,
     timestamp:new Date().getTime(),
     colour: [0,0,0],
-    mode:"web"
-    // userColor:[1,1,1]
+    mode:"web",
+    lights:[1,1,1]
   });
 
   weather.save((err,result)=>{
