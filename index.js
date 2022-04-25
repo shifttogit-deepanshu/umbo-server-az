@@ -238,7 +238,7 @@ setInterval(()=>{
 },5000)
 
 app.get("/createdb",(req,res)=>{
-  const weather = new Weather({ 
+  const weather = { 
     _id: "Deepanshu",
     // mode:response.data.mode,
     lat: 28,
@@ -256,7 +256,7 @@ app.get("/createdb",(req,res)=>{
     colour: [0,0,0],
     mode:"web",
     lights:[1,1,1]
-  });
+  };
 
   weather.save((err,result)=>{
     if(err){
