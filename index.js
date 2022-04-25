@@ -290,27 +290,37 @@ app.get("/current",(req,res)=>{
   
   axios(config)
   .then(function (response) {
+  
 
-  const weather = new Weather({ 
-    _id: "Deepanshu",
-    // mode:response.data.mode,
-    lat: response.data.coord.lat,
-    lon: response.data.coord.lon,
-    main: response.data.weather[0].main,
-    desc: response.data.weather[0].description,
-    icon: response.data.weather[0].icon,
-    temp: response.data.main.temp,
-    cloud: response.data.clouds.all,
-    location:response.data.name,
-    wind_speed:response.data.wind.speed,
-    timezone:response.data.timezone,
-    rain: response.data.rain?1:0,
-    timestamp:new Date().getTime()
-  });
+  Weather.findById({_id:"Deepanshu"}).then(result=>{
+    const weather = new Weather({ 
+      _id: "Deepanshu",
+      // mode:response.data.mode,
+      lat: response.data.coord.lat,
+      lon: response.data.coord.lon,
+      main: response.data.weather[0].main,
+      desc: response.data.weather[0].description,
+      icon: response.data.weather[0].icon,
+      temp: response.data.main.temp,
+      cloud: response.data.clouds.all,
+      location:response.data.name,
+      wind_speed:response.data.wind.speed,
+      timezone:response.data.timezone,
+      rain: response.data.rain?1:0,
+      timestamp:new Date().getTime(),
+      lights:result.lights
+    });
 
-    Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
-      res.send(response.data)
+    return weather
+  }).then(weth=>{
+    Weather.findOneAndUpdate({_id:"Deepanshu"},weth).then(result=>{
+      console.log("weth...........",weth)
+      res.send(result)
     })
+  }).catch(err=>{
+    console.log(err)
+    res.send(err)
+  })    
 
     })
     .catch(function (error) {
