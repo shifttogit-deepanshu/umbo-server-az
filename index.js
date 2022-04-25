@@ -255,7 +255,7 @@ app.get("/createdb",(req,res)=>{
     rain: 1,
     timestamp:new Date().getTime(),
     colour: [0,0,0],
-    userColor:[1,1,1]
+    // userColor:[1,1,1]
   });
 
   weather.save((err,result)=>{
