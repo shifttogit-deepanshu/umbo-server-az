@@ -123,6 +123,7 @@ setInterval(()=>{
   Weather.findOne({_id:"Deepanshu"}).then(result=>{
     let lat = result.lat
     let lon = result.lon
+    let lghts = result.lights
     var config = {
       method: 'get',
       url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=b38e7738b387d4dc0bbf9fe1dfe668cb`,
@@ -219,8 +220,10 @@ setInterval(()=>{
       sunset:response.data.sys.sunset,
       color:col,
       currentTime:currentTime,
-      lights:[...result.lights]
+      lights:[...lghts]
     });
+
+    console.log("...................................",lghts)
     
     Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
       // res.send(response.data)
