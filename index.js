@@ -206,7 +206,6 @@ setInterval(()=>{
         //   opacity = 1 - ((scaledTime - 0.5)/(1 - 0.5))
         // }
       colour = [...scolour]
-      console.log(colour)
       }
 
       return new Promise((resolve,reject)=>{
@@ -237,10 +236,9 @@ setInterval(()=>{
       lights:[...lghts]
     });
 
-    console.log("...................................",lghts)
-    
     Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
       // res.send(response.data)
+      console.log("result.....",result.lights)
     })
     .catch(function (error) {
       // res.send(error)
