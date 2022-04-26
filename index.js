@@ -45,22 +45,28 @@ const Weather = mongoose.model('Weather', WeatherSchema);
 
 app.get("/nodemcu",(req,res)=>{
   Weather.findOne({_id:"Deepanshu"}).then(result=>{
-    const resp = {
-      mode:result.mode,
-      main:result.main,
-      color:result.color,
-      // userColor:result.manColor
+    let respo
+    if(result.mode=="web"){
+      respo = {
+        mode:result.main,
+        color:result.color
+      }
     }
-    res.send(resp)
-  }).catch(err=>{
-    res.send(err)
-  })
+    else{
+      respo = {
+        mode:result.mode,
+        color:result.lights
+      } 
+    } 
+  
+    res.send(respo)
+  }).catch(err=>res.send({error:err}))
 })
 
 
 app.get("/test",(req,res)=>{
   res.send({
-    main:"clouds",
+    mode:"Clouds",
     color:[123,34,200]
   })
 })
@@ -82,21 +88,21 @@ app.get("/web",(req,res)=>{
 })
 
 app.get("/rain",(req,res)=>{
-  const weather = {mode:"rain"}
+  const weather = {mode:"Rain"}
   Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
     res.send(result)
   })
 })
 
 app.get("/thunder",(req,res)=>{
-  const weather = new Weather({mode:"thunder"})
+  const weather = new Weather({mode:"Thunderstorm"})
   Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
     res.send(result)
   })
 })
 
 app.get("/clouds",(req,res)=>{
-  const weather = new Weather({mode:"clouds"})
+  const weather = new Weather({mode:"Clouds"})
   Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
     res.send(result)
   })
