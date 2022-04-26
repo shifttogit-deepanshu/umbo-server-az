@@ -109,9 +109,9 @@ app.get("/clouds",(req,res)=>{
 })
 
 app.get("/lights",(req,res)=>{
-  let r = Number(req.query.r) || 255
-  let g = Number(req.query.g) || 255
-  let b = Number(req.query.b) || 255
+  let r = Number(req.query.r)
+  let g = Number(req.query.g) 
+  let b = Number(req.query.b) 
 
   let colors = [r,g,b]
 
