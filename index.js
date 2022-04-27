@@ -77,7 +77,6 @@ app.get("/test",(req,res)=>{
   })
 })
 
-
 app.get("/dbdata",(req,res)=>{
   Weather.findOne({_id:"Deepanshu"}).then(result=>{
     res.send(result)
@@ -109,6 +108,13 @@ app.get("/thunder",(req,res)=>{
 
 app.get("/clouds",(req,res)=>{
   const weatherClouds = new Weather({mode:"Clouds"})
+  Weather.findOneAndUpdate({_id:"Deepanshu"},weatherClouds).then(result=>{
+    res.send(result)
+  })
+})
+
+app.get("/setToLights",(req,res)=>{
+  const weatherClouds = new Weather({mode:"Light"})
   Weather.findOneAndUpdate({_id:"Deepanshu"},weatherClouds).then(result=>{
     res.send(result)
   })
