@@ -46,16 +46,16 @@ const Weather = mongoose.model('Weather', WeatherSchema);
 app.get("/nodemcu",(req,res)=>{
   Weather.findOne({_id:"Deepanshu"}).then(result=>{
     let respo
-    if(result.mode=="web"){
-      respo = {
-        mode:result.main,
-        color:result.color
-      }
-    }
-    else{
+    if(result.mode=="lights"){
       respo = {
         mode:result.mode,
         color:result.lights
+      }
+    }
+    else{
+      respo = {        
+        mode:result.main,
+        color:result.color
       } 
     } 
   
