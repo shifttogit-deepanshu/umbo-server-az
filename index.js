@@ -52,6 +52,12 @@ app.get("/nodemcu",(req,res)=>{
         color:result.color
       }
     }
+    else if(result.mode=="clouds"){
+      respo = {
+        mode:result.mode,
+        color:result.color
+      } 
+    }
     else{
       respo = {
         mode:result.mode,
