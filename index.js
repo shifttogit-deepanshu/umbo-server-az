@@ -81,29 +81,29 @@ app.get("/dbdata",(req,res)=>{
 })
 
 app.get("/web",(req,res)=>{
-  const weather = {mode:"web"}
-  Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
+  const weatherWeb = {mode:"web"}
+  Weather.findOneAndUpdate({_id:"Deepanshu"},weatherWeb).then(result=>{
     res.send(result)
   })
 })
 
 app.get("/rain",(req,res)=>{
-  const weather = {mode:"Rain"}
-  Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
+  const weatherRain = {mode:"Rain"}
+  Weather.findOneAndUpdate({_id:"Deepanshu"},weatherRain).then(result=>{
     res.send(result)
   })
 })
 
 app.get("/thunder",(req,res)=>{
-  const weather = new Weather({mode:"Thunderstorm"})
-  Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
+  const weatherStorm = new Weather({mode:"Thunderstorm"})
+  Weather.findOneAndUpdate({_id:"Deepanshu"},weatherStorm).then(result=>{
     res.send(result)
   })
 })
 
 app.get("/clouds",(req,res)=>{
-  const weather = new Weather({mode:"Clouds"})
-  Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
+  const weatherClouds = new Weather({mode:"Clouds"})
+  Weather.findOneAndUpdate({_id:"Deepanshu"},weatherClouds).then(result=>{
     res.send(result)
   })
 })
