@@ -37,11 +37,9 @@ const WeatherSchema = new mongoose.Schema({
   color:Array,
   currentTime:Number,
   lights:Array
-
 });
 
 const Weather = mongoose.model('Weather', WeatherSchema);
-
 
 app.get("/nodemcu",(req,res)=>{
   Weather.findOne({_id:"Deepanshu"}).then(result=>{
@@ -52,16 +50,16 @@ app.get("/nodemcu",(req,res)=>{
         color:result.color
       }
     }
-    else if(result.mode=="clouds"){
-      respo = {
-        mode:"Clouds",
-        color:result.color
-      } 
-    }
     else{
+      if(result.lights.length>0){
+        col = result.lights
+      }
+      else{
+        col = result.color
+      }
       respo = {
         mode:result.mode,
-        color:result.lights
+        color:col
       } 
     } 
   
@@ -120,6 +118,7 @@ app.get("/setToLights",(req,res)=>{
   })
 })
 
+
 app.get("/lights",(req,res)=>{
   let r = Number(req.query.r)
   let g = Number(req.query.g) 
@@ -149,7 +148,6 @@ setInterval(()=>{
   Weather.findOne({_id:"Deepanshu"}).then(result=>{
     let lat = result.lat
     let lon = result.lon
-    let lghts = result.lights
     var config = {
       method: 'get',
       url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=b38e7738b387d4dc0bbf9fe1dfe668cb`,
@@ -165,8 +163,6 @@ setInterval(()=>{
     const time = Math.ceil(moment.utc().valueOf()/1000) + timezone
 
     currentTime = moment(time*1000).utc()
-
-    console.log("currentTime...............",currentTime)
 
     // const sunrise = moment((1649505984 + 19800)*1000).utc()
 
@@ -245,12 +241,12 @@ setInterval(()=>{
       sunset:response.data.sys.sunset,
       color:col,
       currentTime:currentTime,
-      lights:[...lghts]
+      lights:result.lights
     });
 
     Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
       // res.send(response.data)
-      console.log("result.....",result.lights)
+      // console.log("result.....",result.lights)
     })
     .catch(function (error) {
       // res.send(error)
@@ -268,7 +264,7 @@ setInterval(()=>{
         console.log(error)
       });  
   })
-},5000)
+},3000)
 
 app.get("/createdb",(req,res)=>{
   const weather = new Weather({ 
@@ -332,7 +328,7 @@ app.get("/current",(req,res)=>{
       timezone:response.data.timezone,
       rain: response.data.rain?1:0,
       timestamp:new Date().getTime(),
-      lights:result.lights
+      lights:response.data.lights
     });
 
     return weather
@@ -354,8 +350,6 @@ app.get("/current",(req,res)=>{
   })
 
 app.use('/', express.static(path.join(__dirname, '/public')))
-
-
 
 }).catch(err=>{
   console.log("database connection error", err)
