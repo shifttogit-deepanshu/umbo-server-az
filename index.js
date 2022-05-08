@@ -325,7 +325,6 @@ app.get("/current",(req,res)=>{
 
   const lat = req.query.lat
   const lon = req.query.lon
-  console.log("local................",req.query.lat,req.query.lon)
   var config = {
     method: 'get',
     url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=b38e7738b387d4dc0bbf9fe1dfe668cb`,
