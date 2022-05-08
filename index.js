@@ -261,6 +261,7 @@ app.get("/test",(req,res)=>{
 // },3000)
 
 app.get("/createdb",(req,res)=>{
+  console.log("db created...")
   const weather = new Weather({ 
     _id: "Deepanshu",
     // mode:response.data.mode,
