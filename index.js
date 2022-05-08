@@ -140,125 +140,125 @@ app.get("/test",(req,res)=>{
     res.send(resp)
 })
 
-setInterval(()=>{
-  Weather.findOne({_id:"Deepanshu"}).then(result=>{
-    let lat = result.lat
-    let lon = result.lon
-    var config = {
-      method: 'get',
-      url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=b38e7738b387d4dc0bbf9fe1dfe668cb`,
-      headers: { }
-    };
+// setInterval(()=>{
+//   Weather.findOne({_id:"Deepanshu"}).then(result=>{
+//     let lat = result.lat
+//     let lon = result.lon
+//     var config = {
+//       method: 'get',
+//       url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=b38e7738b387d4dc0bbf9fe1dfe668cb`,
+//       headers: { }
+//     };
    
-    axios(config)
-    .then(function (response) {
+//     axios(config)
+//     .then(function (response) {
 
-    const timezone = response.data.timezone
+//     const timezone = response.data.timezone
 
-    // console.log("tz...",response)
-    const time = Math.ceil(moment.utc().valueOf()/1000) + timezone
+//     // console.log("tz...",response)
+//     const time = Math.ceil(moment.utc().valueOf()/1000) + timezone
 
-    currentTime = moment(time*1000).utc()
+//     currentTime = moment(time*1000).utc()
 
-    // const sunrise = moment((1649505984 + 19800)*1000).utc()
+//     // const sunrise = moment((1649505984 + 19800)*1000).utc()
 
-    // const sunset = moment((1649552660 + 3600*7 + 19800)*1000).utc()
+//     // const sunset = moment((1649552660 + 3600*7 + 19800)*1000).utc()
 
-    var config = {
-      method: 'get',
-      url: `http://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&formatted=0\n`,
-      headers: { }
-    };
+//     var config = {
+//       method: 'get',
+//       url: `http://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&formatted=0\n`,
+//       headers: { }
+//     };
 
-    axios(config)
-    .then(function (responseSun) {
-      // console.log(JSON.stringify(response.data.results.sunrise));
+//     axios(config)
+//     .then(function (responseSun) {
+//       // console.log(JSON.stringify(response.data.results.sunrise));
 
-      const sunriseUTC = moment(responseSun.data.results.sunrise)
-      const sunsetUTC = moment(responseSun.data.results.sunset)
+//       const sunriseUTC = moment(responseSun.data.results.sunrise)
+//       const sunsetUTC = moment(responseSun.data.results.sunset)
 
-      // const currentVal = currentTime.valueOf()
-      // const upVal = sunrise.valueOf()
-      // const downVal = sunset.valueOf()
+//       // const currentVal = currentTime.valueOf()
+//       // const upVal = sunrise.valueOf()
+//       // const downVal = sunset.valueOf()
 
-      // diffVal = currentTime.diff(sunrise)
+//       // diffVal = currentTime.diff(sunrise)
 
 
-      ts = Math.ceil((sunriseUTC/1000) + timezone)
+//       ts = Math.ceil((sunriseUTC/1000) + timezone)
 
-      tss = Math.ceil(sunsetUTC/1000) + timezone
+//       tss = Math.ceil(sunsetUTC/1000) + timezone
 
-      const sunrise = moment(ts*1000).utc()
-      const sunset = moment(tss*1000).utc()
-      // console.log(sunrise)
-      // console.log(currentTime)
-      // console.log(sunset)
+//       const sunrise = moment(ts*1000).utc()
+//       const sunset = moment(tss*1000).utc()
+//       // console.log(sunrise)
+//       // console.log(currentTime)
+//       // console.log(sunset)
 
-      const scaledTime = (currentTime - sunrise)/(sunset-sunrise)
-      let colour
-      if(scaledTime<=0){
-        colour = [0,0,0]
-      }
-      else{
+//       const scaledTime = (currentTime - sunrise)/(sunset-sunrise)
+//       let colour
+//       if(scaledTime<=0){
+//         colour = [0,0,0]
+//       }
+//       else{
       
-      scolour = colour_scale(scaledTime).rgb()
+//       scolour = colour_scale(scaledTime).rgb()
 
-        // if(scaledTime<=0.5){
-        //   opacity = (scaledTime - 0)/(0.5 - 0)         
-        // }
-        // else{
-        //   opacity = 1 - ((scaledTime - 0.5)/(1 - 0.5))
-        // }
-      colour = [...scolour]
-      }
+//         // if(scaledTime<=0.5){
+//         //   opacity = (scaledTime - 0)/(0.5 - 0)         
+//         // }
+//         // else{
+//         //   opacity = 1 - ((scaledTime - 0.5)/(1 - 0.5))
+//         // }
+//       colour = [...scolour]
+//       }
 
-      return new Promise((resolve,reject)=>{
-        resolve(colour)
-      })
+//       return new Promise((resolve,reject)=>{
+//         resolve(colour)
+//       })
 
-    }).then(col=>{ 
+//     }).then(col=>{ 
       
-    const weather = new Weather({ 
-      _id: "Deepanshu",
-      lat: response.data.coord.lat,
-      lon: response.data.coord.lon,
-      main: response.data.weather[0].main,
-      desc: response.data.weather[0].description,
-      icon: response.data.weather[0].icon,
-      temp: response.data.main.temp,
-      cloud: response.data.clouds.all,
-      location:response.data.name,
-      wind_speed:response.data.wind.speed,
-      timezone:response.data.timezone,
-      rain: response.data.rain?1:0,
-      timestamp:new Date().getUTCSeconds(),
-      sunrise:response.data.sys.sunrise,
-      sunset:response.data.sys.sunset,
-      color:col,
-      currentTime:currentTime
-    });
+//     const weather = new Weather({ 
+//       _id: "Deepanshu",
+//       lat: response.data.coord.lat,
+//       lon: response.data.coord.lon,
+//       main: response.data.weather[0].main,
+//       desc: response.data.weather[0].description,
+//       icon: response.data.weather[0].icon,
+//       temp: response.data.main.temp,
+//       cloud: response.data.clouds.all,
+//       location:response.data.name,
+//       wind_speed:response.data.wind.speed,
+//       timezone:response.data.timezone,
+//       rain: response.data.rain?1:0,
+//       timestamp:new Date().getUTCSeconds(),
+//       sunrise:response.data.sys.sunrise,
+//       sunset:response.data.sys.sunset,
+//       color:col,
+//       currentTime:currentTime
+//     });
 
-    Weather.findOneAndUpdate({_id:"Deepanshu"},{$set:weather}).then(result=>{
-      // res.send(response.data)
-      // console.log("result.....",result.lights)
-    })
-    .catch(function (error) {
-      // res.send(error)
-      console.log(error)
-    }); 
+//     Weather.findOneAndUpdate({_id:"Deepanshu"},{$set:weather}).then(result=>{
+//       // res.send(response.data)
+//       // console.log("result.....",result.lights)
+//     })
+//     .catch(function (error) {
+//       // res.send(error)
+//       console.log(error)
+//     }); 
   
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+//     })
+//     .catch(function (error) {
+//       console.log(error);
+//     });
 
 
-      })
-      .catch(function (error) {
-        console.log(error)
-      });  
-  })
-},3000)
+//       })
+//       .catch(function (error) {
+//         console.log(error)
+//       });  
+//   })
+// },3000)
 
 app.get("/createdb",(req,res)=>{
   const weather = new Weather({ 
