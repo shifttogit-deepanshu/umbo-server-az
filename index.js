@@ -36,7 +36,8 @@ const WeatherSchema = new mongoose.Schema({
   sunset:Number,
   color:Array,
   currentTime:Number,
-  lights:Array
+  lights:Array,
+  lightOn:Number
 });
 
 const Weather = mongoose.model('Weather', WeatherSchema);
@@ -46,12 +47,14 @@ app.get("/nodemcu",(req,res)=>{
     let respo
     if(result.mode=="web"){
       respo = {
+        type:"web",
         mode:result.main,
         color:result.color
       }
     }
     else{
       respo = {
+        type:"manual",
         mode:result.mode,
         color:result.lights
       }
@@ -105,7 +108,7 @@ app.get("/clouds",(req,res)=>{
 })
 
 app.get("/setToLights",(req,res)=>{
-  const weatherClouds = new Weather({mode:"Light"})
+  const weatherClouds = new Weather({lightOn:req.query.val})
   Weather.findOneAndUpdate({_id:"Deepanshu"},weatherClouds).then(result=>{
     res.send(result)
   })
@@ -121,7 +124,7 @@ app.get("/lights",(req,res)=>{
 
   console.log(colors)
   const weather = new Weather({lights:[r,g,b]})
-  Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
+  Weather.findOneAndUpdate({_id:"Deepanshu"},{$set:weather}).then(result=>{
     res.send(result)
   }).catch(err=>{
     // console.log("err..................",err)
@@ -275,7 +278,8 @@ app.get("/createdb",(req,res)=>{
     timestamp:new Date().getTime(),
     color: [0,0,0],
     mode:"web",
-    lights:[255,255,255]
+    lights:[255,255,255],
+    lightOn:0
   });
 
   weather.save((err,result)=>{
