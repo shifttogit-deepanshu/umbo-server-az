@@ -51,18 +51,11 @@ app.get("/nodemcu",(req,res)=>{
       }
     }
     else{
-      if(result.lights.length>0){
-        col = result.lights
-      }
-      else{
-        col = result.color
-      }
       respo = {
         mode:result.mode,
-        color:col
-      } 
-    } 
-  
+        color:result.lights
+      }
+    }  
     res.send(respo)
   }).catch(err=>res.send({error:err}))
 })
@@ -220,8 +213,7 @@ setInterval(()=>{
         resolve(colour)
       })
 
-    }).then(col=>{
-  
+    }).then(col=>{ 
       
     const weather = new Weather({ 
       _id: "Deepanshu",
@@ -240,11 +232,10 @@ setInterval(()=>{
       sunrise:response.data.sys.sunrise,
       sunset:response.data.sys.sunset,
       color:col,
-      currentTime:currentTime,
-      lights:result.lights
+      currentTime:currentTime
     });
 
-    Weather.findOneAndUpdate({_id:"Deepanshu"},weather).then(result=>{
+    Weather.findOneAndUpdate({_id:"Deepanshu"},{$set:weather}).then(result=>{
       // res.send(response.data)
       // console.log("result.....",result.lights)
     })
@@ -284,7 +275,7 @@ app.get("/createdb",(req,res)=>{
     timestamp:new Date().getTime(),
     color: [0,0,0],
     mode:"web",
-    lights:[1,1,1]
+    lights:[255,255,255]
   });
 
   weather.save((err,result)=>{
@@ -310,10 +301,8 @@ app.get("/current",(req,res)=>{
   
   axios(config)
   .then(function (response) {
-  
-
-  Weather.findById({_id:"Deepanshu"}).then(result=>{
-    const weather = new Weather({ 
+  Weather.findById({_id:"Deepanshu"}).then(gotResult=>{
+    const weatherArr = new Weather({ 
       _id: "Deepanshu",
       // mode:response.data.mode,
       lat: response.data.coord.lat,
@@ -327,13 +316,12 @@ app.get("/current",(req,res)=>{
       wind_speed:response.data.wind.speed,
       timezone:response.data.timezone,
       rain: response.data.rain?1:0,
-      timestamp:new Date().getTime(),
-      lights:response.data.lights
+      timestamp:new Date().getTime()
     });
-
-    return weather
+    console.log("...............",weatherArr)
+    return weatherArr
   }).then(weth=>{
-    Weather.findOneAndUpdate({_id:"Deepanshu"},weth).then(result=>{
+    Weather.findOneAndUpdate({_id:"Deepanshu"},{$set:weth}).then(result=>{
       console.log("weth...........",weth)
       res.send(result)
     })
