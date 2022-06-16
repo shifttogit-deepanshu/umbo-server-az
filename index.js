@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors')
 const moment = require("moment-timezone")
 const chroma = require("chroma-js")
+const {MongoClient} = require('mongodb')
 
 app.use(cors())
 
@@ -376,6 +377,29 @@ app.use('/', express.static(path.join(__dirname, '/public')))
  
 })
 
+
+app.post("/cred",(req,res)=>{
+  const uri = "mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net?retryWrites=true&w=majority";
+  const client = new MongoClient(uri);
+
+  client.connect().then(_=>{
+    const db = client.db("cred");
+    const collect = db.collection("cred")
+
+    ssid = req.query.ssid
+    psk = req.query.psk
+
+    collect.findOneAndUpdate({_id:1},{$set:{newid:ssid,newpsk:psk}}).then(result=>{
+      // console.log("lights set................")
+      res.send({result:result})
+    }).catch(err=>{
+      res.send({error:err})
+      // console.log("err..................",err)
+    })
+
+  })
+  
+})
 
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:` + port)
