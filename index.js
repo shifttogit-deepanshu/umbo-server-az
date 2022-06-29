@@ -401,7 +401,7 @@ app.post("/cred",(req,res)=>{
   
 })
 
-app.post("/getCred",(req,res)=>{
+app.get("/getCred",(req,res)=>{
   const uri = "mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net?retryWrites=true&w=majority";
   const client = new MongoClient(uri);
 
