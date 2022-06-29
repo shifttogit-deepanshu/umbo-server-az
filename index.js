@@ -401,6 +401,30 @@ app.post("/cred",(req,res)=>{
   
 })
 
+app.post("/getCred",(req,res)=>{
+  const uri = "mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net?retryWrites=true&w=majority";
+  const client = new MongoClient(uri);
+
+  client.connect().then(_=>{
+    const db = client.db("cred");
+    const collect = db.collection("cred")
+
+    ssid = req.query.ssid
+    psk = req.query.psk
+
+    collect.findOne({_id:1}).then(result=>{
+      // console.log("lights set................")
+      res.send({result:result})
+    }).catch(err=>{
+      res.send({error:err})
+      // console.log("err..................",err)
+    })
+
+  })
+  
+})
+
+
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:` + port)
 })
