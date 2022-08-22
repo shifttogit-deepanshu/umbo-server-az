@@ -15,7 +15,7 @@ let scolour
 
 const colour_scale = chroma.scale(['black','orange','yellow','white','yellow','orange','black'])
 
-mongoose.connect('mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net/weathers').then(res=>{
+mongoose.connect('mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net/weathers?directConnection=true').then(res=>{
 console.log("connected to db............")
 const WeatherSchema = new mongoose.Schema({
   _id:Number,
