@@ -15,7 +15,7 @@ let scolour
 
 const colour_scale = chroma.scale(['black','orange','yellow','white','yellow','orange','black'])
 
-mongoose.connect('mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net/weathers').then(res=>{
+mongoose.connect('mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net/weathers',{serverSelectionTimeoutMS: 500000000000000000000000}).then(res=>{
 console.log("connected to db............")
 const WeatherSchema = new mongoose.Schema({
   _id:Number,
@@ -380,7 +380,7 @@ app.use('/', express.static(path.join(__dirname, '/public')))
 
 app.post("/cred",(req,res)=>{
   const uri = "mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net";
-  const client = new MongoClient(uri, { useUnifiedTopology: true, socketTimeoutMS: 30000000000000000000000000000000000000000 });
+  const client = new MongoClient(uri, { useUnifiedTopology: true, socketTimeoutMS: 30000000000000000});
 
   client.connect().then(_=>{
     const db = client.db("cred");
@@ -405,7 +405,7 @@ app.post("/cred",(req,res)=>{
 
 app.get("/getCred",(req,res)=>{
   const uri = "mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net";
-  const client = new MongoClient(uri, { useUnifiedTopology: true ,socketTimeoutMS: 3000000000000000000000000000000000000000000000 });
+  const client = new MongoClient(uri, { useUnifiedTopology: true ,socketTimeoutMS: 3000000000000000000 });
 
   client.connect().then(_=>{
     const db = client.db("cred");
