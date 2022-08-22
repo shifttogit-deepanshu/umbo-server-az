@@ -379,7 +379,7 @@ app.use('/', express.static(path.join(__dirname, '/public')))
 
 
 app.post("/cred",(req,res)=>{
-  const uri = "mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net?retryWrites=true&w=majority";
+  const uri = "mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net";
   const client = new MongoClient(uri, { useUnifiedTopology: true });
 
   client.connect().then(_=>{
@@ -404,7 +404,7 @@ app.post("/cred",(req,res)=>{
 })
 
 app.get("/getCred",(req,res)=>{
-  const uri = "mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net?retryWrites=true&w=majority";
+  const uri = "mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net";
   const client = new MongoClient(uri, { useUnifiedTopology: true });
 
   client.connect().then(_=>{
@@ -419,6 +419,7 @@ app.get("/getCred",(req,res)=>{
       res.send({result:result})
       client.close()
     }).catch(err=>{
+      console.log("error.......",error)
       res.send({error:err})
       // console.log("err..................",err)
       client.close()
