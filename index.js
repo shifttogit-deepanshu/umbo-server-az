@@ -392,8 +392,10 @@ app.post("/cred",(req,res)=>{
     collect.findOneAndUpdate({_id:1},{$set:{newid:ssid,newpsk:psk}}).then(result=>{
       // console.log("lights set................")
       res.send({result:result})
+      client.close()
     }).catch(err=>{
       res.send({error:err})
+      client.close()
       // console.log("err..................",err)
     })
 
@@ -415,9 +417,11 @@ app.get("/getCred",(req,res)=>{
     collect.findOne({_id:1}).then(result=>{
       // console.log("lights set................")
       res.send({result:result})
+      client.close()
     }).catch(err=>{
       res.send({error:err})
       // console.log("err..................",err)
+      client.close()
     })
 
   })
