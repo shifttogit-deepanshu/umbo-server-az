@@ -378,56 +378,56 @@ app.use('/', express.static(path.join(__dirname, '/public')))
 })
 
 
-app.post("/cred",(req,res)=>{
-  const uri = "mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net";
-  const client = new MongoClient(uri, { useUnifiedTopology: true, socketTimeoutMS: 30000000000000000,serverSelectionTimeoutMS: 500000000000000000000000});
+// app.post("/cred",(req,res)=>{
+//   const uri = "mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net";
+//   const client = new MongoClient(uri, { useUnifiedTopology: true, socketTimeoutMS: 30000000000000000,serverSelectionTimeoutMS: 500000000000000000000000});
 
-  client.connect().then(_=>{
-    const db = client.db("cred");
-    const collect = db.collection("cred")
+//   client.connect().then(_=>{
+//     const db = client.db("cred");
+//     const collect = db.collection("cred")
 
-    ssid = req.query.ssid
-    psk = req.query.psk
+//     ssid = req.query.ssid
+//     psk = req.query.psk
 
-    collect.findOneAndUpdate({_id:1},{$set:{newid:ssid,newpsk:psk}}).then(result=>{
-      // console.log("lights set................")
-      res.send({result:result})
-      client.close()
-    }).catch(err=>{
-      res.send({error:err})
-      client.close()
-      // console.log("err..................",err)
-    })
+//     collect.findOneAndUpdate({_id:1},{$set:{newid:ssid,newpsk:psk}}).then(result=>{
+//       // console.log("lights set................")
+//       res.send({result:result})
+//       client.close()
+//     }).catch(err=>{
+//       res.send({error:err})
+//       client.close()
+//       // console.log("err..................",err)
+//     })
 
-  })
+//   })
   
-})
+// })
 
-app.get("/getCred",(req,res)=>{
-  const uri = "mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net";
-  const client = new MongoClient(uri, { useUnifiedTopology: true ,socketTimeoutMS: 3000000000000000000,serverSelectionTimeoutMS: 500000000000000000000000 });
+// app.get("/getCred",(req,res)=>{
+//   const uri = "mongodb+srv://projectumbo:deepa%40SH4040@cluster0.ja4hb.mongodb.net";
+//   const client = new MongoClient(uri, { useUnifiedTopology: true ,socketTimeoutMS: 3000000000000000000,serverSelectionTimeoutMS: 500000000000000000000000 });
 
-  client.connect().then(_=>{
-    const db = client.db("cred");
-    const collect = db.collection("cred")
+//   client.connect().then(_=>{
+//     const db = client.db("cred");
+//     const collect = db.collection("cred")
 
-    ssid = req.query.ssid
-    psk = req.query.psk
+//     ssid = req.query.ssid
+//     psk = req.query.psk
 
-    collect.findOne({_id:1}).then(result=>{
-      // console.log("lights set................")
-      res.send({result:result})
-      client.close()
-    }).catch(err=>{
-      console.log("error.......",error)
-      res.send({error:err})
-      // console.log("err..................",err)
-      client.close()
-    })
+//     collect.findOne({_id:1}).then(result=>{
+//       // console.log("lights set................")
+//       res.send({result:result})
+//       client.close()
+//     }).catch(err=>{
+//       console.log("error.......",error)
+//       res.send({error:err})
+//       // console.log("err..................",err)
+//       client.close()
+//     })
 
-  })
+//   })
   
-})
+// })
 
 
 app.listen(port, () => {
